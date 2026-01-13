@@ -1,0 +1,29 @@
+import numpy as np
+from sklearn import datasets
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score,classification_report
+import time
+from sklearn.neighbors import KNeighborsClassifier
+
+print('1.加载数据')
+minst = datasets.load_digits()
+x,y = minst.data,minst.target
+# print(x)
+# print(y)
+
+print('2.划分数据')
+
+x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=0.2,random_state=2,stratify=y)
+# print(x_test.shape)
+# print(x_train.shape)
+
+print('3.训练模型')
+start = time.time()
+knn_classifier = KNeighborsClassifier(n_neighbors = 3,algorithm='auto')
+knn_classifier.fit(x_train,y_train)
+end = time.time()
+print('训练时间：',end-start)
+
+print('4.模型预测')
+y_predict = knn_classifier.predict(x_test)
+print('准确率：',round(accuracy_score(y_test,y_predict),3))
